@@ -56,27 +56,27 @@ export const filterData = [
       items: [
         { name: 'Lowest Price', value: 'price-asc' },
         { name: 'Highest Price', value: 'price-des' },
-        { name: 'Newest', value: 'date-asc' },
-        { name: 'Oldest', value: 'date-desc' },
-        { name: 'Verified', value: 'verified-score' },
-        { name: 'City Level Score', value: 'city-level-score' },
+        // { name: 'Newest', value: 'date-asc' },
+        // { name: 'Oldest', value: 'date-desc' },
+        // { name: 'Verified', value: 'verified-score' },
+        // { name: 'City Level Score', value: 'city-level-score' },
       ],
       placeholder: 'Sort',
       queryName: 'sort',
     },
-    {
-      items: [
-        { name: '1000', value: '1000' },
-        { name: '2000', value: '2000' },
-        { name: '3000', value: '3000' },
-        { name: '4000', value: '4000' },
-        { name: '5000', value: '5000' },
-        { name: '10000', value: '10000' },
-        { name: '20000', value: '20000' },
-      ],
-      placeholder: 'Max Area(sqft)',
-      queryName: 'areaMax',
-    },
+    // {
+    //   items: [
+    //     { name: '1000', value: '1000' },
+    //     { name: '2000', value: '2000' },
+    //     { name: '3000', value: '3000' },
+    //     { name: '4000', value: '4000' },
+    //     { name: '5000', value: '5000' },
+    //     { name: '10000', value: '10000' },
+    //     { name: '20000', value: '20000' },
+    //   ],
+    //   placeholder: 'Max Area(sqft)',
+    //   queryName: 'areaMax',
+    // },
     {
       items: [
         { name: '1', value: '1' },
@@ -91,7 +91,7 @@ export const filterData = [
         { name: '10', value: '10' },
       ],
       placeholder: 'Rooms',
-      queryName: 'roomsMin',
+      queryName: 'rooms',
     },
     {
       items: [
@@ -107,30 +107,31 @@ export const filterData = [
         { name: '10', value: '10' },
       ],
       placeholder: 'Baths',
-      queryName: 'bathsMin',
+      queryName: 'bathrooms',
     },
     {
       items: [
-        { name: 'Furnished', value: 'furnished' },
-        { name: 'Unfurnished', value: 'unfurnished' },
+        { name: 'Furnished', value: 'Furnished' },
+        { name: 'Unfurnished', value: 'Unfurnished' },
       ],
       placeholder: 'Furnish Type',
       queryName: 'furnishingStatus',
     },
     {
       items: [
-        { name: 'Apartment', value: '4' },
-        { name: 'Townhouses', value: '16' },
-        { name: 'Villas', value: '3' },
-        { name: 'Penthouses', value: '18' },
-        { name: 'Hotel Apartments', value: '21' },
-        { name: 'Villa Compound', value: '19' },
-        { name: 'Residential Plot', value: '14' },
-        { name: 'Residential Floor', value: '12' },
-        { name: 'Residential Building', value: '17' },
+        { name: 'Apartment', value: 'Apartment' },
+        { name: 'Townhouses', value: 'Townhouses' },
+        { name: 'Bedsitter', value: 'Bedsitter'},
+        { name: 'Villas', value: 'Villas' },
+        // { name: 'Penthouses', value: '18' },
+        // { name: 'Hotel Apartments', value: '21' },
+        // { name: 'Villa Compound', value: '19' },
+        // { name: 'Residential Plot', value: '14' },
+        // { name: 'Residential Floor', value: '12' },
+        // { name: 'Residential Building', value: '17' },
       ],
       placeholder: 'Property Type',
-      queryName: 'categoryExternalID',
+      queryName: 'housetype',
     },
   ];
   
@@ -138,14 +139,13 @@ export const filterData = [
     const {
       purpose,
       rentFrequency,
-      categoryExternalID,
+      housetype,
       minPrice,
       maxPrice,
-      areaMax,
-      roomsMin,
-      bathsMin,
+      // areaMax,
+      rooms,
+      bathrooms,
       sort,
-      locationExternalIDs,
     } = filterValues;
   
     const values = [
@@ -165,29 +165,34 @@ export const filterData = [
         name: 'maxPrice',
         value: maxPrice,
       },
+      // {
+      //   name: 'areaMax',
+      //   value: areaMax,
+      // },
       {
-        name: 'areaMax',
-        value: areaMax,
+        name: 'rooms',
+        value: rooms,
       },
       {
-        name: 'roomsMin',
-        value: roomsMin,
-      },
-      {
-        name: 'bathsMin',
-        value: bathsMin,
+        name: 'bathrooms',
+        value: bathrooms,
       },
       {
         name: 'sort',
         value: sort,
       },
+      // {
+      //   name: 'locationExternalIDs',
+      //   value: locationExternalIDs,
+      // },
+      ,
       {
-        name: 'locationExternalIDs',
-        value: locationExternalIDs,
+        name: "furnishingStatus",
+        value: "furnishingStatus"
       },
       {
-        name: 'categoryExternalID',
-        value: categoryExternalID,
+        name: 'housetype',
+        value: housetype,
       },
     ];
   

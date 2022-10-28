@@ -1,6 +1,6 @@
 import {Menu, MenuButton,Link, MenuList, MenuItem, IconButton, Flex, Box, Spacer} from '@chakra-ui/react';
 import {connect} from 'react-redux';
-import {FcMenu, FcHome, FcAbout} from 'react-icons/fc';
+import {FcMenu, FcHome, FcAbout, FcAcceptDatabase} from 'react-icons/fc';
 import {BsSearch,BsHouseFill} from 'react-icons/bs';
 import {FaSignOutAlt} from 'react-icons/fa'
 import {RiRegisteredFill} from 'react-icons/ri'
@@ -22,8 +22,9 @@ const Navbar=({currentUser}) =>(
                         <Link href='/search'><MenuItem icon={<BsSearch/>}>Search</MenuItem></Link> 
                         <Link href='/search?purpose=for-sale'><MenuItem icon={<FcAbout/>}>Buy Property</MenuItem></Link>
                         <Link href='/search?purpose=for-rent'><MenuItem icon={<FiKey/>}>Rent Property</MenuItem></Link>
-                        <Link href='' ><MenuItem icon={<BsHouseFill/>}>List Property</MenuItem></Link>  
+                        <Link href='/listProperty' ><MenuItem icon={<BsHouseFill/>}>List Property</MenuItem></Link>  
                         <Link href='/signup'><MenuItem icon={<RiRegisteredFill/>}>SignUp</MenuItem></Link> 
+                        <Link href='/About'><MenuItem icon={<FcAbout/>}>About</MenuItem></Link>
                         
                         <div>
                             {

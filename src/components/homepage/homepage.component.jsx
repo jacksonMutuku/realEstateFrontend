@@ -52,9 +52,9 @@ const ForSale =()=>{
         imageUrl='https://bayut-production.s3.eu-central-1.amazonaws.com/image/110993385/6a070e8e1bae4f7d8c1429bc303d2008'
         
       />
-      <Flex flexwrap='wrap'>
+      <Flex flexWrap='wrap'>
         {
-          propertiesforsale.map((property,index) =>((<Property property={property} key={property.id}/>)))
+          propertiesforsale.map((property) =>((<Property property={property} key={property.id}/>)))
         }
       </Flex>
 
@@ -90,9 +90,9 @@ const Home=() =>{
         
       />
 
-      <Flex flexwrap='wrap'>
+      <Flex flexWrap='wrap'>
           {
-            properties.map((property,index) =>((<Property property={property} key={property.id}/>)
+            properties.map((property) =>((<Property property={property} key={property.id}/>)
               // <div>
               //     <Img src={property.coverPhoto} width={400} height={260}/>
               //     <p>{property.fname}</p> 

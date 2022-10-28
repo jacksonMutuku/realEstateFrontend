@@ -33,20 +33,34 @@ const RightArrow = () => {
       </Flex>
     );
   }
-const ImageScrollbar= (propertiesforsale,photo) => (
+const ImageScrollbar= ({propertiesforsale,photo}) => {
+  const photoList = propertiesforsale.photos.split(',');
+
+  return (
     <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow} style={{ overflow: 'hidden' }}>
-        {propertiesforsale.map((property,index) =>(
-        <Box width='910px' property={property} key={property.id} overflow='hidden' p='1'>
+       {/* <Image 
+                alt='property'
+                placeholder="blur"
+                // blurDataURL={photo} 
+                src={propertiesforsale.photos} width={1000}
+                height={500}  
+                sizes="(max-width: 500px) 100px, (max-width: 1023px) 400px, 1000px"
+         /> */}
+
+        {photoList.map((photo,index) =>(
+        <Box width='910px' photo={photo} key={index} overflow='hidden' p='1'>
           <Image 
-            alt='property'
+            alt='Rent image'
             placeholder="blur"
             // blurDataURL={photo} 
             src={photo} width={1000}
             height={500}  
-            sizes="(max-width: 500px) 100px, (max-width: 1023px) 400px, 1000px" />
+            sizes="(max-width: 500px) 100px, (max-width: 1023px) 400px, 1000px" 
+          />
         </Box>
       ))}
     </ScrollMenu>
+  )
+}
 
-)
 export default ImageScrollbar;

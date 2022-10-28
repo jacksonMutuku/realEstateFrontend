@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box,Heading} from '@chakra-ui/react';
 import Navbar from './NavBar';
-import Footer from './Footer';
+// import Footer from './Footer';
 
 
 const Layout = () => (

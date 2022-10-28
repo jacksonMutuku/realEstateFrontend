@@ -8,11 +8,16 @@ import SignInPage from './pages/sign-in-and-sign-up/sign-in';
 import passwordResetPage from './pages/sign-in-and-sign-up/password-reset';
 import HomePage from './pages/homepage';
 import Layout from './components/homepage/Layout';
-import Footer from './components/homepage/Footer';
+import Footer from './components/homepage/footer/Footer';
 import {setCurrentUser} from './redux/user/user.actions';
-import BuyPropertyPage from './pages/Buy Property';
+// import BuyPropertyPage from './pages/Buy Property';
 // import NProgress from 'nprogress';
-import Search from './pages/search';
+import Search from './components/homepage/search';
+import PropertyDetails from './pages/property/propertyDetails';
+import {Home,properties} from './components/homepage/homepage.component';
+import ListPage from './pages/listpage';
+import About from './components/homepage/footer/About/About';
+import PropertyForSale from './pages/property/PropertyForSale';
 
 
 class App extends React.Component{
@@ -59,16 +64,30 @@ class App extends React.Component{
           <Switch>
             <Route exact path='/' component={HomePage}/>
             <Route exact path='/search' component={Search}/>
-            <Route path='/search?purpose=for-sale' component={BuyPropertyPage}/>
+            <Route exact path='/listProperty'  component={ListPage}/>
+            <Route exact path='/About' component={About}/>
+            {/* <Route
+              path='/property/: id'
+              render={({match}) =>(
+                <PropertyDetails
+                  property={property.find(
+                    (property)=>String(property.id)=== match.params.id
+                  
+                  )}
+                />
+              )}
+            /> */}
+          
             {/* <Route exact path='/signup' component={SignUpPage}/>
             <Route exact path='/signup' component={SignInPage}/> */}
+            <Route path='/property/:id' component={PropertyForSale}/>
             <Route exact path='/signup' render={() => this.props.currentUser ? (<Redirect to='/' />) : ( <SignUpPage /> )}/>
             <Route path='/passwordreset' component={passwordResetPage}/>
             <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : ( <SignInPage /> )}/>
           </Switch>
           <Footer/>
       </div>
-      
+
     )
   };
 }

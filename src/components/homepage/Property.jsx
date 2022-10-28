@@ -1,16 +1,20 @@
 // import {Img} from 'react-image';
-import {Flex, Box, Avatar,Text, Link,Img} from '@chakra-ui/react';
+import {Flex, Box, Avatar,Text,Img,Link} from '@chakra-ui/react';
+// import { Link } from 'react-router-dom';
 import {FaBed,FaBath} from 'react-icons/fa';
 import {BsGridFill} from 'react-icons/bs';
 import {GoVerified} from 'react-icons/go';
 import millify from 'millify';
 import defaultImage from '../../assests/apartment.jpg';
+import { useState } from 'react';
 
 // ,agency,isVerified,externalID
+
 const Property = ({property:{coverPhoto,price,rentFrequency,id,
     roomnumber,purpose,bathno}}) =>(
+        
         // href = {`/property/${externalID}`} passHref
-    <Link href = {`/property/${id}`} passHref>
+    <Link href={`/property/${id}`}>
         <Flex flexWrap='wrap' w='420px' p='5' paddingTop='0' justifyContent='flex-start' cursor='pointer'>
             <Box>
                 {/* ? coverPhoto.url:defaultImage */}

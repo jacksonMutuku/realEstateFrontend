@@ -10,14 +10,22 @@ import {Image,Button,Select,Stack,HStack,VStack,Input,InputGroup,Textarea,InputL
 import { filterData } from '../../utils/filterData';
 import { createPortal } from 'react-dom';
 
-function ListProperties({ currentUser }) {
-    if (currentUser) console.log(currentUser)
+export const OwnerContext = React.createContext();
 
-  return (
+function ListProperties({ currentUser }) {
+    const [email, setEmail] = useState(null)
+
+    if (currentUser && currentUser.email) {
+        setEmail(currentUser.email);
+    }
+
+    return (
     <>
+    <OwnerContext.Provider value={email}>
         <ChooseCategory/>
+    </OwnerContext.Provider>
     </>
-  );
+    );
 }
 
 function ListpropertyForsale() {
@@ -262,7 +270,6 @@ function ListpropertyForRent() {
   
     let handleSubmit = async (e) => {
       e.preventDefault();
-    
       
       try {
         const res = await axios.post('http://127.0.0.1:8000/forrent/', ({

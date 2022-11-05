@@ -31,7 +31,7 @@ const ForSale =()=>{
     const [propertiesforsale,setProperties] =useState([])
     const getProperty=async() =>{
     const response=await axios.get('http://127.0.0.1:8000/forsale/')
-    console.log(response.data)
+    // console.log(response.data)
     const myArray = response.data;
     setProperties(response.data)
   }
@@ -69,7 +69,7 @@ const ForRent=() =>{
   const [properties,setProperties] =useState([])
   const getProperty=async() =>{
     const response=await axios.get('http://127.0.0.1:8000/forrent/')
-    console.log(response.data)
+    // console.log(response.data)
     setProperties(response.data)
   }
   useEffect(()=>{

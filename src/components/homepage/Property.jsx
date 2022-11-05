@@ -25,7 +25,7 @@ const Property = ({property:{coverPhoto,price,rentFrequency,id,
                         {/* <Box paddingRight='3' color='green.400'>
                             {isVerified && <GoVerified/>}
                         </Box> */}
-                        <Text fontWeight='bold' fontSize='lg'>USD{millify(price)}{rentFrequency && `/${rentFrequency}`}</Text>
+                        <Text fontWeight='bold' fontSize='lg'>KSH {price}{rentFrequency && `/${rentFrequency}`}</Text>
                     </Flex>
                     {/* <Box>
                         <Avatar size="sm" src={agency?.logo?.url}/>

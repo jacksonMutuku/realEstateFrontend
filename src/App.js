@@ -10,14 +10,15 @@ import HomePage from './pages/homepage';
 import Layout from './components/homepage/Layout';
 import Footer from './components/homepage/footer/Footer';
 import {setCurrentUser} from './redux/user/user.actions';
-// import BuyPropertyPage from './pages/Buy Property';
-// import NProgress from 'nprogress';
+import BuyPropertyPage from './pages/ListPropertyPage1';
 import Search from './components/homepage/search';
-import PropertyDetails from './pages/property/propertyDetails';
+import PropertyDetails from './components/propertyDetails/propertyDetails';
 import {Home,properties} from './components/homepage/homepage.component';
 import ListPage from './pages/listpage';
 import About from './components/homepage/footer/About/About';
-import PropertyForSale from './pages/property/PropertyForSale';
+import PropertyForSale from './components/propertyDetails/PropertyForSale';
+import ListPropertyPage1 from './components/listproperty.component.jsx/addContactComponent';
+import PropertyForRentDetails from './components/propertyDetails/PropertyForRent';
 
 
 class App extends React.Component{
@@ -66,21 +67,11 @@ class App extends React.Component{
             <Route exact path='/search' component={Search}/>
             <Route exact path='/listProperty'  component={ListPage}/>
             <Route exact path='/About' component={About}/>
-            {/* <Route
-              path='/property/: id'
-              render={({match}) =>(
-                <PropertyDetails
-                  property={property.find(
-                    (property)=>String(property.id)=== match.params.id
-                  
-                  )}
-                />
-              )}
-            /> */}
-          
-            {/* <Route exact path='/signup' component={SignUpPage}/>
-            <Route exact path='/signup' component={SignInPage}/> */}
-            <Route path='/property/:id' component={PropertyForSale}/>
+            {/* <Route exact path='/signup' component={SignUpPage}/> */}
+            <Route exact path='/listProperty1' component={ListPropertyPage1}/>
+            {/* <Route exact path='/listProperty2' component={ListPropertyPage2}/> */}
+            <Route path='/propertyFor-Sale/:id' component={PropertyForSale}/>
+            <Route path='/propertyFor-Rent/:id' component={PropertyForRentDetails}/>
             <Route exact path='/signup' render={() => this.props.currentUser ? (<Redirect to='/' />) : ( <SignUpPage /> )}/>
             <Route path='/passwordreset' component={passwordResetPage}/>
             <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : ( <SignInPage /> )}/>
@@ -105,46 +96,3 @@ export default connect(
 )(App);
 
 
-
-// class App extends React.Component {
-//   constructor() {
-//     super();
-
-//     this.state = {
-//       currentUser: null
-//     };
-//   }
-
-//   unsubscribeFromAuth = null;
-
-//   componentDidMount() {
-//     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-//       if (userAuth) {
-//         const userRef = await createUserProfileDocument(userAuth);
-
-//         userRef.onSnapshot(snapShot => {
-//           this.setState({
-//             currentUser: {
-//               id: snapShot.id,
-//               ...snapShot.data()
-//             }
-//           });
-//         });console.log(this.state)
-//       }
-
-//       this.setState({ currentUser: userAuth });
-//     });
-//   }
-
-//   componentWillUnmount() {
-//     this.unsubscribeFromAuth();
-//   }
-// export default App;
-
-// function App() {
-//   return (
-//     <LoginPage/>
-//   )
-// }
-
-// export default App;

@@ -1,12 +1,12 @@
 import React from 'react';
-import{Home,ForSale}  from '../components/homepage/homepage.component';
+import{ForRent,ForSale}  from '../components/homepage/homepage.component';
 
 
 
 const HomePage =()=>(
     <div className ='sign-in'>
-         <Home/>  
          <ForSale/>
+         <ForRent/>  
     </div>
 );
 

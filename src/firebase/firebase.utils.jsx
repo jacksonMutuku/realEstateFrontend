@@ -2,7 +2,6 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
-
 const config ={
         apiKey: "AIzaSyA0piwCgQ4Pr698CTCq-DfhHi9o-70aAoI",
         authDomain: "realestate-f3704.firebaseapp.com",
@@ -11,21 +10,23 @@ const config ={
         messagingSenderId: "601014449206",
         appId: "1:601014449206:web:a824ba3c278d94f96d9497",
         measurementId: "G-4E7NZKDF4K"
-      
 };
 firebase.initializeApp(config);
-export const createUserProfileDocument =async(userAuth,additionalData)=>{
+export const createUserProfileDocument =async(userAuth, additionalData)=>{
         if(!userAuth) return;
+        console.log(additionalData)
+        
         const userRef = firestore.doc(`users/${userAuth.uid}`);
         
         const snapshot = await userRef.get();
       
         if(!snapshot.exists){
-                const {displayName,email} = userAuth;
+                const {FirstName,LastName,email} = userAuth;
                 const createdAt = new Date();
                 try {
                         await userRef.set({
-                                displayName,
+                                FirstName,
+                                LastName,
                                 email,
                                 createdAt,
                                 ...additionalData

@@ -2,7 +2,7 @@ import {Box,VStack,Heading,Text,Input,FormControl,FormLabel,HStack,Checkbox,Butt
 import{FcGoogle} from 'react-icons/fc';
 import {auth,signInWithGoogle} from '../../firebase/firebase.utils';
 import React from 'react';
-
+import './sign-up.styles.css';
 
 class SignIn extends React.Component{
     constructor(props){
@@ -36,57 +36,48 @@ class SignIn extends React.Component{
         const{email,password} = this.state;
 
         return(
-                <Center h='100vh' bg='gray.200'>
                     <Box 
                         bg='whiteAlpha.900' 
                         w={['full' ,'md']} 
                         p={[8,10]} 
                         mt={[20,'10vh']} 
                         mx='auto' 
-                        border={['none']}
                         borderColor={['','']}
                         borderRadius={10}
                     >
-                        {/* spacing='1' align={['flex-start','center']} w='full' */}
-                        {/* spacing='4' align='flex-start' w='full' */}
-                        <VStack >
-                            <HStack w='full' justify='space-between'>
-                                    <Heading as='h1'>Login</Heading>
-                                    <Link color='purple' href='/signup'>I do not have an account</Link>
-                                    {/* <Button colorScheme='purple' variant='link' to='/signup'>I do not have an account</Button> */}
-                            </HStack>
-                            <form onSubmit={this.handleSubmit}>
-                                <VStack>
+                        <HStack w='full' justify='space-between'>
+                                <Heading as='h1'>Login</Heading>
+                                <Link color='purple' href='/signup'>I do not have an account</Link>
+                                {/* <Button colorScheme='purple' variant='link' to='/signup'>I do not have an account</Button> */}
+                        </HStack>
+                        <form onSubmit={this.handleSubmit}>
+                            <VStack>
+                                        <Input
+                                            type="email"
+                                            name="email"
+                                            value={email}
+                                            placeholder="enter email"
+                                            onChange={this.handleChange}
+                                            rounded ='none' 
+                                            variant ='filled'
+                                            required
+                                        />
                                             <Input
-                                                type="email"
-                                                name="email"
-                                                value={email}
-                                                placeholder="enter email"
-                                                onChange={this.handleChange}
-                                                rounded ='none' 
-                                                variant ='filled'
-                                                required
+                                            type="password"
+                                            name="password"
+                                            value={password}
+                                            placeholder="Your Password"
+                                            onChange={this.handleChange}
+                                            rounded ='none' 
+                                            variant ='filled'
+                                            required
                                             />
-                                             <Input
-                                                type="password"
-                                                name="password"
-                                                value={password}
-                                                placeholder="Your Password"
-                                                onChange={this.handleChange}
-                                                rounded ='none' 
-                                                variant ='filled'
-                                                required
-                                             />
-                                            <Button  type='submit' rounded ='none'  color='white' colorScheme='green' width={['full']}>CONTINUE</Button>
-                                            <span>OR</span>
-                                            <Button rounded ='none'  width={['full']} justify='space-between' onClick={signInWithGoogle}><FcGoogle/>SIGN IN WITH GOOGLE</Button>
-                                </VStack>
-                            </form>
-                        </VStack>
-
-                    </Box>
-
-            </Center>
+                                        <Button  type='submit' rounded ='none'  color='white' colorScheme='green' width={['full']}>CONTINUE</Button>
+                                        <span>OR</span>
+                                        <Button rounded ='none'  width={['full']} justify='space-between' onClick={signInWithGoogle}><FcGoogle/>SIGN IN WITH GOOGLE</Button>
+                            </VStack>
+                        </form>
+                </Box>
 
         )
     }
@@ -96,6 +87,18 @@ export default SignIn;
 
 
 
+ {/* <Box 
+                        // bg='whiteAlpha.900' 
+                        // w={['full' ,'md']} 
+                        // p={[8,10]} 
+                        // mt={[20,'10vh']} 
+                        // mx='auto' 
+                        // border={['none']}
+                        borderColor={['','']}
+                        borderRadius={10}
+                    > */}
+
+{/* <Center h='100vh' bg='gray.200'> */}
 
  {/* <FormControl 
                                     name='email' 

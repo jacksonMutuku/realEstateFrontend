@@ -54,7 +54,7 @@ const ForSale =()=>{
       />
       <Flex flexWrap='wrap'>
         {
-          propertiesforsale.map((property) =>((<Property property={property} key={property.id}/>)))
+          propertiesforsale.map((property) =>((<Property purpose={"sale"} property={property} key={property.id}/>)))
         }
       </Flex>
 
@@ -65,7 +65,7 @@ const ForSale =()=>{
 
 }
 
-const Home=() =>{
+const ForRent=() =>{
   const [properties,setProperties] =useState([])
   const getProperty=async() =>{
     const response=await axios.get('http://127.0.0.1:8000/forrent/')
@@ -92,7 +92,7 @@ const Home=() =>{
 
       <Flex flexWrap='wrap'>
           {
-            properties.map((property) =>((<Property property={property} key={property.id}/>)
+            properties.map((property) =>((<Property purpose={"rent"} property={property} key={property.id}/>)
               // <div>
               //     <Img src={property.coverPhoto} width={400} height={260}/>
               //     <p>{property.fname}</p> 
@@ -127,7 +127,7 @@ const Home=() =>{
     </Box>
   )
 }
-export {Home,ForSale};
+export {ForRent,ForSale};
 
 
 

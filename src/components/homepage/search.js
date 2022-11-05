@@ -6,7 +6,7 @@ import { Flex, Box, Text, Icon ,Image} from '@chakra-ui/react';
 import { BsFilter } from 'react-icons/bs';
 import axios from 'axios'
 
-import Property from './Property';
+import Property from './PropertySearch';
 
 import { UpdatedPropertyList } from "./searchFilter";
 import SearchFilters from './searchFilter';
@@ -20,7 +20,7 @@ import noresult from '../../assests/noresult.svg'
 const Search=()=>{
   const [propertiesforsale,setProperties] =useState([])
   const getProperty=async() =>{
-    const response=await axios.get('http://127.0.0.1:8000/forsale/')
+    const response=await axios.get('http://127.0.0.1:8000/properties/')
     // console.log(response.data)
     setProperties(response.data) 
     setUpdatedProperties(response.data)

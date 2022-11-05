@@ -11,13 +11,14 @@ import { useState } from 'react';
 // ,agency,isVerified,externalID
 
 const Property = ({property:{coverPhoto,price,rentFrequency,id,
-    roomnumber,purpose,bathno}}) => (
+    roomnumber,purpose,bathno}}) =>(
         
-    <Link href={`/property${purpose}/${id}`}>
+        // href = {`/property/${externalID}`} passHref
+    <Link href={`/property/${id}`}>
         <Flex flexWrap='wrap' w='420px' p='5' paddingTop='0' justifyContent='flex-start' cursor='pointer'>
             <Box>
                 {/* ? coverPhoto.url:defaultImage */}
-                <Img src={coverPhoto } width={400} height={260}alt='house'/>
+                <Img src={'http://127.0.0.1:8000'+coverPhoto } width={400} height={260}alt='house'/>
             </Box>
             <Box>
                 <Flex paddingTop='2' alignItems ='center' justifyContent='space-between'>

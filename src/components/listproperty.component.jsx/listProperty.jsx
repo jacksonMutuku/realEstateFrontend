@@ -1,8 +1,12 @@
-import React from "react";
+import React,{ useState }  from "react";
 import './listProperty.styles.css';
 import background from '../../assests/living-room1.jpg'
 import { BsCheckCircle } from "react-icons/bs";
 import {Image,Button,Select,Stack,HStack,VStack,Input,InputGroup,Textarea,InputLeftElement,InputRightElement,InputLeftAddon,Checkbox,StackDivider,Heading} from '@chakra-ui/react';
+import firebase from './components/firebase/firebase.utils'
+  
+
+
 // const List =()=>{
 //     return(
 //         <div class='main'>

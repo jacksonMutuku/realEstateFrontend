@@ -5,17 +5,17 @@ import {FaBed,FaBath} from 'react-icons/fa';
 import {BsGridFill} from 'react-icons/bs';
 import {GoVerified} from 'react-icons/go';
 import millify from 'millify';
-import Property from '../../components/homepage/Property';
+import Property from '../homepage/Property';
 import PropertyDetails from './propertyDetails';
 import {Link} from 'react-router-dom';
 // // import { baseUrl, fetchApi } from '../../utils/fetchApi';
 // // import ImageScrollbar from '../../components/homepage/ImageScrollbar';
 
-const PropertyForSale =(props)=>{
-  const [property, setProperty] = useState({});
+const PropertyForRentDetails=(props)=>{
+  const [property, setProperty] = useState(null);
 
   const getProperty=async() =>{
-    const response=await axios.get(`http://127.0.0.1:8000/forsale/`);
+    const response=await axios.get(`http://127.0.0.1:8000/forrent/`);
 
     const property = response.data.find(property => {
       return property.id === parseInt(props.match.params.id);
@@ -26,6 +26,7 @@ const PropertyForSale =(props)=>{
     
   useEffect(()=>{
     getProperty();
+    
   },[]);
 
   return(
@@ -46,4 +47,4 @@ const PropertyForSale =(props)=>{
     </Flex>
   )
 }
-export default PropertyForSale;
+export default PropertyForRentDetails;

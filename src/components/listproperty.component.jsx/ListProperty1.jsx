@@ -3,8 +3,8 @@ import './listProperty.styles.css';
 import background from '../../assests/living-room1.jpg'
 import { BsCheckCircle } from "react-icons/bs";
 import {Image,Button,Select,Stack,HStack,VStack,Input,InputGroup,Textarea,InputLeftElement,InputRightElement,InputLeftAddon,Checkbox,StackDivider,Heading} from '@chakra-ui/react';
-import {DisplaySteps,Listproperty} from './ForRent';
-import Submitcontacts from './ForRent'
+import {DisplaySteps,ListpropertyForsale,ListpropertyForRent, ChooseCategory} from './ListProperties';
+import Submitcontacts from './ListProperties'
 const List1 =()=>{
     return(
         <div className='main'>
@@ -16,9 +16,10 @@ const List1 =()=>{
                         <div className="col-xl-9 col-lg-10">
                             <div className="section-title text-center"><Heading size='4xl'>Add New Property</Heading></div>
                             <DisplaySteps/>
-                            {/* <Contacts/> */}
                             <Submitcontacts/>
-                            <Listproperty/>
+                            {/* <ChooseCategory/> */}
+                            {/* <ListpropertyForsale/> */}
+                            {/* <ListpropertyForRent/> */}
                             {/* <Features/>
                             <Amenities/> */}
                         </div>

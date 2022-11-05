@@ -10,7 +10,8 @@ const SubmitFilters =()=>(
 );
 
 const handleClearClick = (getUpdatedProperties, propertiesforsale) => {
-   getUpdatedProperties(propertiesforsale)
+   getUpdatedProperties(propertiesforsale);
+   window.location.reload();
 }
 
 const ClearFilters =({ getUpdatedProperties, propertiesforsale })=> {

@@ -1,13 +1,13 @@
-// import {Box} from '@chakra-ui/react';
+import {Box} from '@chakra-ui/react';
+import React from "react"
+import "./footer.css"
 
 // const Footer =() =>(
 //     <Box textAlign='center' p='5' color='gray.600' borderTop='1px' borderColor='gray.100'>
 //         2022 Apartment Hunter, Inc.
 //     </Box> 
 // )
-// export default Footer;
-import React from "react"
-import "./footer.css"
+
 
 const Footer = () => {
   return (
@@ -27,33 +27,13 @@ const Footer = () => {
       <footer>
         <div className='container'>
           <div className='box'>
-            {/* <div className='logo'>
-              <img src='../images/logo-light.png' alt='' />
-              <h2>Do You Need Help With Anything?</h2>
-              <p>Receive updates, hot deals, tutorials, discounts sent straignt in your inbox every month</p>
-
-              <div className='input flex'>
-                <input type='text' placeholder='Email Address' />
-                <button>Subscribe</button>
-              </div>
-            </div> */}
           </div>
-{/* 
-          {footer.map((val) => (
-            <div className='box'>
-              <h3>{val.title}</h3>
-              <ul>
-                {val.text.map((items) => (
-                  <li> {items.list} </li>
-                ))}
-              </ul>
-            </div>
-          ))} */}
         </div>
-      </footer>
-      <div className='legal'>
+        <div className='legal'>
         <span>© 2022 Apartment Hunter. Designed By Jacksina.</span>
       </div>
+      </footer>
+      
     </>
   )
 }

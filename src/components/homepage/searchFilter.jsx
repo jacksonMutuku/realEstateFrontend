@@ -20,6 +20,7 @@ function SearchFilters({ propertiesforsale, getUpdatedProperties }) {
   const myFilterDetails = router.location.filterDetails;
   const [listOfSubmitFilters, setListOfSubmitFilters] = useState({});
 
+  console.log(listOfSubmitFilters)
   // if(myFilterDetails) {
   //   const propertiesToDisplay = propertiesforsale.filter(property => {
       // return property[Object.key[myFilterDetails]] === Object.key[myFilterDetails].value
@@ -44,24 +45,40 @@ function SearchFilters({ propertiesforsale, getUpdatedProperties }) {
                 filterDetails[item.name] = filterValues[item.name]
             }
         })
+        // console.log(filterDetails)
 
         router.push({ pathname: path, filterDetails });
     };
 
-    let updatedPropertyList = propertiesforsale;
+    let updatedPropertyList = propertiesforsale.map(property => {
+      return JSON.stringify(property)
+    });
+    console.log(updatedPropertyList)
 
     const handleSubmit = (e) => {
       e.preventDefault();
 
       // console.log(listOfSubmitFilters);
       // console.log(Object.keys(listOfSubmitFilters))
-      console.log(propertiesforsale);
+      // console.log(propertiesforsale);
 
       const newProperties = propertiesforsale.filter(property => {
         return property["furnishingStatus"] === "Furnished"
       });
 
       for (const key in listOfSubmitFilters) {
+        // filterData.forEach((filter) => {
+        //   if (filterData.queryName == key) {
+        //     console.log(filter)
+        //     filter.items.map(item => {
+        //       if (item.name === listOfSubmitFilters[key]) {
+        //         console.log(item)
+        //         listOfSubmitFilters[key] = item.value
+        //       }
+        //     })
+        //   }
+        // })
+
         updatedPropertyList = updatedPropertyList.filter(property => {
           return property[key] === listOfSubmitFilters[key];
         });
@@ -82,8 +99,8 @@ function SearchFilters({ propertiesforsale, getUpdatedProperties }) {
       <UpdatedPropertyList.Provider value={updatedPropertyList}>
         <form onSubmit={handleSubmit}>
           <Flex bg='gray.100' p='4' justifyContent='center' flexWrap='wrap'>
-              {filters?.map((filter) => (
-                  <Box key={filter.queryName}>
+              {filters?.map((filter, index) => (
+                  <Box key={index}>
                       <Select
                           placeholder={filter.placeholder} 
                           w='fit-content' 

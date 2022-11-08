@@ -8,7 +8,6 @@ import axios from 'axios';
 import {FaBed,FaBath} from 'react-icons/fa';
 import {BsGridFill} from 'react-icons/bs';
 import {GoVerified} from 'react-icons/go';
-import millify from 'millify';
 import defaultImage from '../../assests/apartment.jpg';
 
 const Banner = ({purpose,desc1,desc2,title1,title2,buttonText,linkName,imageUrl})=> (

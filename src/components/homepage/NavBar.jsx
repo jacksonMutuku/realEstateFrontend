@@ -20,9 +20,9 @@ const Navbar=({currentUser}) =>(
                 <MenuList>
                         <Link href='/'><MenuItem icon={<FcHome/>}>Home</MenuItem></Link>
                         <Link href='/search'><MenuItem icon={<BsSearch/>}>Search</MenuItem></Link> 
-                        <Link href='/search?purpose=for-sale'><MenuItem icon={<FcAbout/>}>Buy Property</MenuItem></Link>
-                        <Link href='/search?purpose=for-rent'><MenuItem icon={<FiKey/>}>Rent Property</MenuItem></Link>
-                        <Link href='/listProperty' ><MenuItem icon={<BsHouseFill/>}>List Property</MenuItem></Link>  
+                        <Link href='/search?purpose=For-Sale'><MenuItem icon={<FcAbout/>}>Buy Property</MenuItem></Link>
+                        <Link href='/search?purpose=For-Rent'><MenuItem icon={<FiKey/>}>Rent Property</MenuItem></Link>
+                        <Link href='/PropertyDashboard' ><MenuItem icon={<BsHouseFill/>}>Property Dashboard</MenuItem></Link>  
                         <Link href='/signup'><MenuItem icon={<RiRegisteredFill/>}>SignUp</MenuItem></Link> 
                         <Link href='/About'><MenuItem icon={<FcAbout/>}>About</MenuItem></Link>
                         
@@ -49,3 +49,4 @@ const mapStateToProps= state=>({
     currentUser:state.user.currentUser
 })
 export default connect(mapStateToProps)(Navbar);
+

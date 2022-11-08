@@ -8,8 +8,8 @@
          super(props);
  
          this.state={
-             FirstName: '',
-             LastName:'',
+             firstName: '',
+             lastName:'',
              email:'',
              phoneNumber: null,
              password:'',
@@ -19,7 +19,7 @@
      handleSubmit = async event => {
          event.preventDefault();
      
-         const {FirstName,LastName,phoneNumber,email, password,confirmPassword } = this.state;
+         const {firstName,lastName,phoneNumber,email, password,confirmPassword } = this.state;
      
          if (password !== confirmPassword) {
            alert("passwords don't match");
@@ -29,13 +29,15 @@
          try {
            const { user } = await auth.createUserWithEmailAndPassword(  email, password);
      
-           await createUserProfileDocument(user, {LastName,FirstName, phoneNumber: parseInt(phoneNumber)});
+           await createUserProfileDocument(user, {lastName,firstName, phoneNumber: parseInt(phoneNumber)});
+
+           
 
            this.setState({
-             LastName: '',
-             FirstName:'',
+             firstName:'',
+             lastName: '',
              email:'',
-             phoneNumber: null,
+             phoneNumber: 0,
              password: '',
              confirmPassword: ''
              
@@ -50,7 +52,7 @@
         this.setState({ [name]: value });
       };
      render(){
-         const {LastName,FirstName,phoneNumber,email,password,confirmPassword} = this.state;
+         const {lastName,firstName,phoneNumber,email,password,confirmPassword} = this.state;
  
          return(
              <Center  h='100vh'bg='gray.200'>
@@ -74,8 +76,8 @@
                                      <VStack>
                                             <Input
                                                 type="text"
-                                                name="FirstName"
-                                                value={FirstName}
+                                                name="firstName"
+                                                value={firstName}
                                                 placeholder="First Name"
                                                 onChange={this.handleChange}
                                                 rounded ='none' 
@@ -84,8 +86,8 @@
                                             />
                                             <Input
                                                 type="text"
-                                                name="LastName"
-                                                value={LastName}
+                                                name="lastName"
+                                                value={lastName}
                                                 placeholder="Last Name"
                                                 onChange={this.handleChange}
                                                 rounded ='none' 

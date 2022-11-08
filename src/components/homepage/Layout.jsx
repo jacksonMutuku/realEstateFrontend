@@ -7,9 +7,7 @@ const Layout = () => (
     <>
         <Heading as='h1'><title>Apartment Hunter</title></Heading>
         <Box maxwidth ='1280px' m='auto'>
-            <heading>
                 <Navbar/>
-            </heading>
         </Box>
     </>
 )

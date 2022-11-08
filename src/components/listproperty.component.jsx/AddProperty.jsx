@@ -1,7 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
 import { connect } from "react-redux";
-
 import { useState } from "react";
 import './listProperty.styles.css';
 import background from '../../assests/living-room1.jpg'
@@ -9,28 +8,38 @@ import { BsCheckCircle } from "react-icons/bs";
 import {Image,Button,Select,Stack,HStack,VStack,Input,InputGroup,Textarea,InputLeftElement,InputRightElement,InputLeftAddon,Checkbox,StackDivider,Heading} from '@chakra-ui/react';
 import { filterData } from '../../utils/filterData';
 import { createPortal } from 'react-dom';
-
+import { useEffect } from 'react';
 export const OwnerContext = React.createContext();
 
-function ListProperties({ currentUser }) {
-    const [email, setEmail] = useState(null)
 
-    if (currentUser && currentUser.email) {
-        setEmail(currentUser.email);
-    }
+const AddProperty = ({ currentUser }) => {
+    const [selectedPurpose, setSelectedPurpose] = useState("");
 
     return (
-    <>
-    <OwnerContext.Provider value={email}>
-        <ChooseCategory/>
-    </OwnerContext.Provider>
-    </>
-    );
+            <div className='border-bottom mb-4'>
+                <VStack>
+                    <Heading as='h1'>Choose Property Categories</Heading>
+                    <Select variant='filled' placeholder='choose property category' size='md'
+                        value={selectedPurpose}
+                        onChange={(e) => setSelectedPurpose(e.target.value)}
+                    >
+                        <option value='rent'>For Rent</option>
+                        <option value='sale'>For Sale</option>
+                    </Select>
+                </VStack>
+                <OwnerContext.Provider value={currentUser}>
+                    {selectedPurpose === 'rent' ? 
+                        <ListpropertyForRent/>:
+                        <ListpropertyForsale/>
+                    }
+                </OwnerContext.Provider>
+                {/* <Amenities/> */}
+            </div>
+        );
 }
 
+//forsale section
 function ListpropertyForsale() {
-    // console.log(context.owner)
-
     const [price, setPrice] = useState(0);
     const [location,setlocation] = useState("");
     const [description, setdescription] = useState("");
@@ -39,28 +48,45 @@ function ListpropertyForsale() {
     const [selectedrooms, setSelectedrooms] = useState(0);
     const [selectedfurnishingStatus, setSelectedfurnishingStatus] = useState(0);
     const [selectedHouseType, setSelectedHouseType] = useState('');
+    const [coverPhoto, setCoverPhoto] = useState(null);
+    const [otherPhotos, setOtherPhotos] = useState(null);
+    // const [contactId, setContactId] = useState(0);
 
     const [finalAmenitiesList, setFinalAmenitiesList] = useState([])
     // console.log(finalAmenitiesList)
 
-    const amenitiesList = "Checkbox, Parking, Sprinklers, Checkbox, Recreation ,Front Yard, " +
-        "Fireplace, Checkbox, Indoor game, 24x7 Sec, Balcony";
-  
-    let handleSubmit = async (e) => {
-      e.preventDefault();
+    const amenitiesList = "Parking" +
+        "Indoor game, 24x7 Sec, Balcony";
 
+    const currentUser = React.useContext(OwnerContext)
+    console.log(currentUser);
+
+    let handleSubmit = async (e) => {
+        e.preventDefault();
+        let form_data = new FormData();
+        form_data.append('price',price)
+        form_data.append('location',location)
+        form_data.append('description', description)
+        form_data.append('bathrooms', selectedbathroom)
+        form_data.append('rooms', selectedrooms)
+        form_data.append('furnishingStatus', selectedfurnishingStatus)
+        form_data.append('purpose', 'For-Sale')
+        form_data.append('houseType', selectedHouseType)
+        form_data.append('amenities', finalAmenitiesList.join(","))
+        form_data.append('ownerId', currentUser.id)
+        form_data.append('coverPhoto', coverPhoto)
+        form_data.append('otherPhotos', otherPhotos)
+  
+        if (!currentUser) {
+          throw new Error("You must be logged in to post a Property!");
+        }
+  
       try {
-        const res = await axios.post('http://127.0.0.1:8000/forsale/', ({
-          price,
-          location,
-          description,
-          bathrooms: selectedbathroom,
-          rooms: selectedrooms,
-          furnishingStatus: selectedfurnishingStatus, 
-          housetype: selectedHouseType,
-          purpose: 'For-Sale',
-          amenities: finalAmenitiesList.join(","),
-        }));   
+        const res = await axios.post('http://127.0.0.1:8000/forsale/', form_data, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
   
         if (res.status === 200) {
           setPrice(0);
@@ -133,7 +159,7 @@ function ListpropertyForsale() {
                                     <InputRightElement children={<BsCheckCircle  color='green.500' />} />
                                 </InputGroup>
                             </Stack>
-                            <Stack direction="row">
+                            <Stack direction="row" mt='5' mb='5'>
                                 <Select 
                                     variant='filled' 
                                     placeholder='houseType' 
@@ -157,38 +183,45 @@ function ListpropertyForsale() {
                                     })}
                                 </Select>
                             </Stack>
-                                <Stack direction='row'>
-                                    <Select 
-                                        variant='filled' 
-                                        placeholder='furnishingStatus' 
-                                        size='md'
-                                        value={selectedfurnishingStatus}
-                                        onChange={(e) => setSelectedfurnishingStatus(e.target.value)}
-                                    >
-                                        {furnishingStatusOptions.map(option => {
-                                            return (<option key={option.value} value={option.value}>{option.name}</option>)
-                                        })}
-                                    </Select>
-                                    <Select 
-                                        variant='filled' 
-                                        placeholder='bathroom' 
-                                        size='md'
-                                        value={selectedbathroom}
-                                        onChange={(e) => setSelectedbathroom(e.target.value)}
-                                    >
-                                        {bathroomOptions.map(option => {
-                                            return (<option key={option.value} value={option.value}>{option.name}</option>)
-                                        })}
-                                    </Select>
+                            <Stack direction='row' mt='5' mb='5'>
+                                <Select 
+                                    variant='filled' 
+                                    placeholder='furnishingStatus' 
+                                    size='md'
+                                    value={selectedfurnishingStatus}
+                                    onChange={(e) => setSelectedfurnishingStatus(e.target.value)}
+                                >
+                                    {furnishingStatusOptions.map(option => {
+                                        return (<option key={option.value} value={option.value}>{option.name}</option>)
+                                    })}
+                                </Select>
+                                <Select 
+                                    variant='filled' 
+                                    placeholder='bathroom' 
+                                    size='md'
+                                    value={selectedbathroom}
+                                    onChange={(e) => setSelectedbathroom(e.target.value)}
+                                >
+                                    {bathroomOptions.map(option => {
+                                        return (<option key={option.value} value={option.value}>{option.name}</option>)
+                                    })}
+                                </Select>
                             </Stack>
-                                <Textarea 
-                                    placeholder='Enter a brief description of your property' 
-                                    value={description}
-                                    onChange={(e) => setdescription(e.target.value)}
-                                />
-                                {/* <div className="row pd-top-80"> */}
-
-                                {/* </div> */}
+                            <Textarea 
+                                placeholder='Enter a brief description of your property' 
+                                value={description}
+                                onChange={(e) => setdescription(e.target.value)}
+                            />
+                            <Stack direction='column'justifyContent='space-between' mt='5' mb='5'>
+                            <input 
+                                type='file'
+                                onChange={(e) => setCoverPhoto(e.target.files[0])}
+                                ></input>
+                            <input 
+                                type='file' 
+                                onChange={(e) => setOtherPhotos(e.target.files[0])}
+                                ></input>
+                            </Stack>
                 </div>
             
             </div>
@@ -219,33 +252,6 @@ function ListpropertyForsale() {
                                 )
                             })
                         }
-
-                        {/* <div className="col-sm-4">
-                            <ul className="rld-list-style mb-3 mb-sm-0">
-                                <Checkbox checked={true} onChange={() => setParking(!parking)} value={parking} size='lg' colorScheme='orange'>Checkbox</Checkbox>
-                                <Checkbox size='lg' colorScheme='orange'>Checkbox</Checkbox>
-                                <Checkbox size='lg' colorScheme='orange'>Parking</Checkbox>
-                                <Checkbox size='lg' colorScheme='orange'>Sprinklers</Checkbox>
-                            </ul>
-                        </div>
-                        <div className="col-sm-4">
-                            <ul className="rld-list-style mb-3 mb-sm-0">
-                                <Checkbox size='lg' colorScheme='orange'>Checkbox</Checkbox>
-                                <Checkbox size='lg' colorScheme='orange'>Recreation</Checkbox>
-                                <Checkbox size='lg' colorScheme='orange'>Front Yard</Checkbox>
-                                <Checkbox size='lg' colorScheme='orange'>Fireplace</Checkbox>
-                            </ul>
-                        </div>
-                        <div className="col-sm-4">
-                            <ul className="rld-list-style mb-3 mb-sm-0">
-                                <Checkbox size='lg' colorScheme='orange'>Checkbox</Checkbox>
-                                <Checkbox size='lg' colorScheme='orange'>Indoor Game</Checkbox>
-                                <Checkbox size='lg' colorScheme='orange'>24x7 Sec</Checkbox>
-                                <Checkbox size='lg' colorScheme='orange'>Balcony</Checkbox>
-                            </ul>
-                        </div> */}
-
-
                         <div className="col-12 mt-5">
                             <Button type="submit" colorScheme='yellow'>Publish</Button>
                         </div>
@@ -256,6 +262,7 @@ function ListpropertyForsale() {
     );
 }
 
+//for rent section
 function ListpropertyForRent() {
 
     const [rentamount, setrentamount] = useState("");
@@ -267,30 +274,55 @@ function ListpropertyForRent() {
     const [selectedrentFrequency, setSelectedrentFrequency] = useState('');
     const [selectedfurnishingStatus, setSelectedfurnishingStatus] = useState(0);
     const [selectedHouseType, setSelectedHouseType] = useState('');
+    const [finalAmenitiesList, setFinalAmenitiesList] = useState([])
+    const [coverPhoto, setCoverPhoto] = useState(null);
+    const [otherPhotos, setOtherPhotos] = useState(null);
+
+    // console.log(coverPhoto)
+    // console.log(otherPhotos)
+
+    // console.log(finalAmenitiesList)
+
+    const amenitiesList = "Parking, " +
+        "Indoor game, 24x7 Sec, Balcony";
+
+    const currentUser = React.useContext(OwnerContext)
+    // console.log(currentUser);
   
     let handleSubmit = async (e) => {
       e.preventDefault();
-      
+      let form_data = new FormData();
+
+      form_data.append('rentamount', rentamount)
+      form_data.append('location',location)
+      form_data.append('description', description)
+      form_data.append('bathrooms', selectedbathroom)
+      form_data.append('rooms', selectedrooms)
+      form_data.append('rentFrequency', selectedrentFrequency)
+      form_data.append('furnishingStatus', selectedfurnishingStatus)
+      form_data.append('purpose', 'For-Rent')
+      form_data.append('houseType', selectedHouseType)
+      form_data.append('amenities', finalAmenitiesList.join(","))
+      form_data.append('ownerId', currentUser.id)
+      form_data.append('coverPhoto', coverPhoto)
+      form_data.append('otherPhotos', otherPhotos)
+
+      if (!currentUser) {
+        throw new Error("You must be logged in to post a Property!");
+      }
       try {
-        const res = await axios.post('http://127.0.0.1:8000/forrent/', ({
-          rentamount,
-          location,
-          description,
-          bathrooms: selectedbathroom,
-          rooms: selectedrooms,
-          rentFrequency: selectedrentFrequency,
-          furnishingStatus: selectedfurnishingStatus, 
-          purpose: 'For-Rent',
-          houseType: selectedHouseType,
-          
-        }))
+        const res = await axios.post('http://127.0.0.1:8000/forrent/', form_data, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
   
         if (res.status === 200) {
           setrentamount("");
           setlocation("");
           setdescription("");
-          selectedbathroom(0);
-          selectedrooms(0);
+          selectedbathroom("");
+          selectedrooms("");
           selectedrentFrequency("");
           selectedfurnishingStatus("");
           selectedHouseType("");
@@ -363,7 +395,7 @@ function ListpropertyForRent() {
                                 <InputRightElement children={<BsCheckCircle  color='green.500' />} />
                             </InputGroup>
                         </Stack>
-                        <Stack direction="row">
+                        <Stack direction="row" mt='5' mb='5'>
                             <Select 
                                 variant='filled' 
                                 placeholder='houseType' 
@@ -375,7 +407,7 @@ function ListpropertyForRent() {
                                     return (<option key={option.value} value={option.value}>{option.name}</option>)
                                 })}
                             </Select>
-                            <Select 
+                            <Select mt='5' mb='5'
                                 variant='filled' 
                                 placeholder='Rooms' 
                                 size='md'
@@ -387,8 +419,8 @@ function ListpropertyForRent() {
                                 })}
                             </Select>
                         </Stack>
-                            <Stack direction='row'>
-                                <Select 
+                            <Stack direction='row' mt='5' mb='5'>
+                                <Select
                                     variant='filled' 
                                     placeholder='furnishingStatus' 
                                     size='md'
@@ -399,7 +431,7 @@ function ListpropertyForRent() {
                                         return (<option key={option.value} value={option.value}>{option.name}</option>)
                                     })}
                                 </Select>
-                                <Select 
+                                <Select
                                     variant='filled' 
                                     placeholder='bathroom' 
                                     size='md'
@@ -410,22 +442,9 @@ function ListpropertyForRent() {
                                         return (<option key={option.value} value={option.value}>{option.name}</option>)
                                     })}
                                 </Select>
-
-                                {/* <Select variant='filled' placeholder='FurningStatus' size='md'>
-                                    <option value='Furnished'>Furnished</option>
-                                    <option value='Unfurnished'>Unfurnished</option>
-                                </Select> */}
-                                {/* <Select variant='filled' placeholder='Bathrooms' size='md'>
-                                    <option value={1}>1 Bathrooms</option>
-                                    <option value={2}>2 Bathrooms</option>
-                                    <option value={3}>3 Bathrooms</option>
-                                    <option value={3}>4 Bathrooms</option>
-                                    <option value={3}>More than 4</option>
-                                </Select> */}
-
                             </Stack>
                             <Stack direction="row">
-                                <Select 
+                                <Select mt='5' mb='5'
                                     variant='filled' 
                                     placeholder='rentFrequency' 
                                     size='md'
@@ -436,21 +455,44 @@ function ListpropertyForRent() {
                                         return (<option key={option.value} value={option.value}>{option.name}</option>)
                                     })}
                                 </Select>
-                                {/* <Select variant='filled' placeholder='Rent Frequency' size='md'>
-                                    <option value='Monthly'>Monthly</option>
-                                    <option value='Yearly'>Yearly</option>
-                                    <option value='Daily'>Daily</option>
-                                </Select> */}
-                                {/* <Select variant='filled' placeholder='Kitchen' size='md'>
-                                    <option value='With Kitchen'>With Kitchen</option>
-                                    <option value='No kitchen'>No kitchen</option>
-                                </Select> */}
                             </Stack>
-                            <Textarea 
+                            <Textarea mt='5' mb='5'
                                 placeholder='Enter a brief description of your property' 
                                 value={description}
                                 onChange={(e) => setdescription(e.target.value)}
                             />
+                            <Stack direction='column'justifyContent='space-between' mt='5' mb='5'>
+                                <input 
+                                    type='file'
+                                    onChange={(e) => setCoverPhoto(e.target.files[0])}
+                                    ></input>
+                                <input 
+                                    type='file' 
+                                    onChange={(e) => setOtherPhotos(e.target.files[0])}
+                                    ></input>
+                            </Stack>
+                            <div className="row">
+                                {/*  TODO - fix final amenity list when unchecked */}
+                                {
+                                    amenitiesList.split(",").map((amenity, index) => {
+                                        amenity = amenity.trim();
+
+                                        return (
+                                            <Checkbox 
+                                                key={index}
+                                                checked={true} 
+                                                onChange={
+                                                    () => {
+                                                        setFinalAmenitiesList([...finalAmenitiesList, amenity ])
+                                                    }
+                                                } 
+                                                value={amenity} size='lg' colorScheme='orange'
+                                                >{amenity}
+                                            </Checkbox> 
+                                        )
+                                    })
+                                }
+                            </div>
                             <Button colorScheme='yellow' type='submit'>Publish</Button>
                             <div className="message">{message ? <p>{message}</p> : null}</div>
                     </form>
@@ -459,188 +501,12 @@ function ListpropertyForRent() {
         </div>   
     );
 }
+export {ListpropertyForsale,ListpropertyForRent};
 
-const ChooseCategory = () => {
-    const [selectedPurpose, setSelectedPurpose] = useState("");
-
-    return (
-            <div className='border-bottom mb-4'>
-                <VStack>
-                    <Heading as='h1'>Choose Property Categories</Heading>
-                    <Select variant='filled' placeholder='choose property category' size='md'
-                        value={selectedPurpose}
-                        onChange={(e) => setSelectedPurpose(e.target.value)}
-                    >
-                        <option value='rent'>For Rent</option>
-                        <option value='sale'>For Sale</option>
-                    </Select>
-                </VStack>
-                {selectedPurpose === 'rent' ? 
-                    <ListpropertyForRent/> : 
-                    <ListpropertyForsale/>
-                }
-                <Amenities/>
-            </div>
-        );
-    }
-// const Features=()=>{
-//     return(
-//         <div className="row pd-top-100 border-bottom mb-4">
-//             <div className="col-md-4">
-//                 <div className="section-title"><h4><Image src="/assests/square-check.svg" alt="img"/>House Name</h4></div>
-//             </div>
-//             <div className="col-md-8">
-//                 <div className="section-title"><Heading size='sm'>Jason Landville Apartments</Heading><p>Lorem ipsum dolor sit amet, consectetur adipiscing </p></div>
-//                 <VStack justify-content="space-between">
-//                     <Stack spacing={4}>
-//                         <InputGroup>
-//                             <InputLeftElement
-//                                 pointerEvents='none'
-//                                 color='gray.300'
-//                                 fontSize='1.2em'
-//                                 children='$'
-//                             />
-//                                 <Input placeholder='Enter amount' />
-//                                 <InputRightElement children={<BsCheckCircle  color='green.500' />} />
-//                         </InputGroup>
-//                         <InputGroup>
-//                             <InputLeftElement
-//                                 pointerEvents='none'
-//                                 color='gray.300'
-//                                 fontSize='1.2em'
-//                                 children='$'
-//                             />
-//                                 <Input placeholder='Enter Property Location' />
-//                                 <InputRightElement children={<BsCheckCircle  color='green.500' />} />
-//                         </InputGroup>
-//                     </Stack>
-//                     <Stack direction="row">
-//                         <Select variant='filled' placeholder='houseType' size='md'>
-//                             <option value='option1'>Bedsitter</option>
-//                             <option value='option2'>Single-Room</option>
-//                             <option value='option3'>Villa</option>
-//                             <option value='option3'>Apartment</option>
-//                         </Select>
-//                         <Select variant='filled' placeholder='Bedrooms' size='md'>
-//                             <option value='option1'>Bedroom 1</option>
-//                             <option value='option2'>Bedroom 2</option>
-//                             <option value='option3'>Bedroom 3</option>
-//                             <option value='option3'>Bedroom 4</option>
-//                         </Select>
-//                         </Stack>
-//                         <Stack direction='row'>
-//                             <Select variant='filled' placeholder='FurningStatus' size='md'>
-//                                 <option value='option1'>Furnished</option>
-//                                 <option value='option2'>Unfurnished</option>
-//                             </Select>
-//                             <Select variant='filled' placeholder='Bathrooms' size='md'>
-//                                 <option value='option1'>Bathroom 1</option>
-//                                 <option value='option2'>Bathroom 2</option>
-//                                 <option value='option3'>Bathroom 3</option>
-//                                 <option value='option3'>Bathroom 4</option>
-//                                 <option value='option3'>More than 4</option>
-//                             </Select>
-
-//                         </Stack>
-//                         <Stack direction="row">
-//                             <Select variant='filled' placeholder='Rent Frequency' size='md'>
-//                                 <option value='option1'>Monthly</option>
-//                                 <option value='option2'>Yearly</option>
-//                                 <option value='option3'>Daily</option>
-//                             </Select>
-//                             <Select variant='filled' placeholder='Kitchen' size='md'>
-//                                 <option value='option1'>With Kitchen</option>
-//                                 <option value='option2'>No kitchen</option>
-//                             </Select>
-//                         </Stack>
-//                         <Textarea placeholder='Enter a brief description of your property' />
-//                 </VStack>
-//             </div>
-//         </div>
-//     )
-// }
-
-const DisplaySteps=()=>
-{
-return (
-    <div className="border-bottom mb-4">
-        <div className="row">
-            <div className="col-md-4">
-                <div className="single-intro style-two text-center">
-                    <div className="thumb"><h1>1</h1></div> 
-                    <div className="details"><h4 className="title">Choose Listing</h4></div>
-                </div>
-            </div>
-            <div className="col-md-4">
-                <div className="single-intro style-two text-center">
-                    <div className="thumb"><h1>2</h1></div>
-                    <div className="details"><h4 className="title">Add Information</h4></div> 
-                </div>
-            </div>
-                <div className="col-md-4">
-                    <div className="single-intro style-two text-center">
-                        <div className="thumb"><h1>3</h1></div>
-                        <div className="details"><h4 className="title">Publish</h4></div> 
-                    </div>
-                </div>
-        </div>
-    </div>
-    
-    );
-}
-
-
-
-const Amenities=()=>{
-    return(
-        <div className="row pd-top-80">
-            {/* <div className="col-md-4">
-                <div className="section-title"><h4><Image src="/assests/square-check.svg" alt="img"/>Amenities</h4></div>
-            </div>
-            <div className="col-md-8">
-                <div className="section-title"><Heading size='sm'>Add The Available Amenities Here</Heading><p>Lorem ipsum dolor sit amet, consectetur adipiscing </p></div>
-                <div className="row">
-                    <div className="col-sm-4">
-                        <ul className="rld-list-style mb-3 mb-sm-0">
-                            <Checkbox size='lg' colorScheme='orange'>Checkbox</Checkbox>
-                            <Checkbox size='lg' colorScheme='orange'>Checkbox</Checkbox>
-                            <Checkbox size='lg' colorScheme='orange'>Parking</Checkbox>
-                            <Checkbox size='lg' colorScheme='orange'>Sprinklers</Checkbox>
-                        </ul>
-                    </div>
-                    <div className="col-sm-4">
-                        <ul className="rld-list-style mb-3 mb-sm-0">
-                            <Checkbox size='lg' colorScheme='orange'>Checkbox</Checkbox>
-                            <Checkbox size='lg' colorScheme='orange'>Recreation</Checkbox>
-                            <Checkbox size='lg' colorScheme='orange'>Front Yard</Checkbox>
-                            <Checkbox size='lg' colorScheme='orange'>Fireplace</Checkbox>
-                        </ul>
-                    </div>
-                    <div className="col-sm-4">
-                        <ul className="rld-list-style mb-3 mb-sm-0">
-                            <Checkbox size='lg' colorScheme='orange'>Checkbox</Checkbox>
-                            <Checkbox size='lg' colorScheme='orange'>Indoor Game</Checkbox>
-                            <Checkbox size='lg' colorScheme='orange'>24x7 Sec</Checkbox>
-                            <Checkbox size='lg' colorScheme='orange'>Balcony</Checkbox>
-                        </ul>
-                    </div>
-                    <div className="col-12 mt-5">
-                        <Button colorScheme='yellow'>Publish</Button>
-                    </div>
-                </div>
-            </div> */}
-        </div>
-    )
-}
-
-export {ChooseCategory,DisplaySteps,ListpropertyForsale,ListpropertyForRent};
-
-const mapStateToProps = state => ({
-    currentUser: state.user.currentUser
+const mapStateToProps = ({ user }) => ({
+    currentUser: user.currentUser
 })
-
-export default connect(mapStateToProps)(ListProperties);
-
+export default connect(mapStateToProps)(AddProperty);
 
 
 // function Submitcontacts() {

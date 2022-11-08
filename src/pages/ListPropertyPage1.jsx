@@ -1,5 +1,5 @@
 import React from 'react';
-import ListPropertyPage from '../components/listproperty.component.jsx/addContactComponent';
+import ListPropertyPage from '../components/listproperty.component.jsx/PropertyDashboard';
 
 
 

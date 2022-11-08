@@ -15,6 +15,10 @@ export const OwnerContext = React.createContext();
 const AddProperty = ({ currentUser }) => {
     const [selectedPurpose, setSelectedPurpose] = useState("");
 
+    useEffect(() => {
+        console.log("LEJIONFEWFNEWNF JE:");
+    }, [])
+
     return (
             <div className='border-bottom mb-4'>
                 <VStack>

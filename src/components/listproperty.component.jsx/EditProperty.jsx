@@ -561,18 +561,24 @@ const EditProperty = ({ currentUser, match: { params }}) => {
 function ListpropertyForRent() {
     const {property, currentUser} = useContext(DataContext)
 
-    const [rentamount, setrentamount] = useState("");
-    const [location,setlocation] = useState("");
-    const [description, setdescription] = useState("");
+    const [rentamount, setrentamount] = useState(property.rentamount);
+    const [location,setlocation] = useState(property.location);
+    const [description, setdescription] = useState(property.description);
     const [message, setMessage] = useState("");
-    const [selectedbathroom, setSelectedbathroom] = useState(0);
-    const [selectedrooms, setSelectedrooms] = useState(0);
-    const [selectedrentFrequency, setSelectedrentFrequency] = useState('');
-    const [selectedfurnishingStatus, setSelectedfurnishingStatus] = useState(0);
-    const [selectedHouseType, setSelectedHouseType] = useState('');
-    const [finalAmenitiesList, setFinalAmenitiesList] = useState([])
-    const [coverPhoto, setCoverPhoto] = useState(null);
-    const [otherPhotos, setOtherPhotos] = useState(null);
+    const [selectedbathroom, setSelectedbathroom] = useState(property.bathrooms);
+    const [selectedrooms, setSelectedrooms] = useState(property.rooms);
+    const [selectedrentFrequency, setSelectedrentFrequency] = useState(property.rentFrequency);
+    const [selectedfurnishingStatus, setSelectedfurnishingStatus] = useState(property.furnishingStatus);
+    const [selectedHouseType, setSelectedHouseType] = useState(property.housetype);
+    const [coverPhoto, setCoverPhoto] = useState(property.coverPhoto);
+    const [otherPhotos, setOtherPhotos] = useState(property.otherPhotos);
+    const [finalAmenitiesList, setFinalAmenitiesList] = useState(
+             property.amenities.split(',').map(amenity => {
+                     amenity.trim();
+                     return amenity
+                })
+            )
+    console.log(finalAmenitiesList)
 
     // console.log(coverPhoto)
     // console.log(otherPhotos)
@@ -604,25 +610,25 @@ function ListpropertyForRent() {
         throw new Error("You must be logged in to post a Property!");
       }
       try {
-        const res = await axios.post('http://127.0.0.1:8000/forrent/', form_data, {
+        const res = await axios.put(`http://127.0.0.1:8000/forrent/${property.id}/`, form_data, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         })
   
-        if (res.status === 200) {
-          setrentamount("");
-          setlocation("");
-          setdescription("");
-          selectedbathroom("");
-          selectedrooms("");
-          selectedrentFrequency("");
-          selectedfurnishingStatus("");
-          selectedHouseType("");
-          setMessage("User created successfully");
-        } else {
-          setMessage("Some error occured");
-        }
+        // if (res.status === 200) {
+        //   setrentamount("");
+        //   setlocation("");
+        //   setdescription("");
+        //   selectedbathroom("");
+        //   selectedrooms("");
+        //   selectedrentFrequency("");
+        //   selectedfurnishingStatus("");
+        //   selectedHouseType("");
+        //   setMessage("User created successfully");
+        // } else {
+        //   setMessage("Some error occured");
+        // }
       } catch (err) {
         console.log(err);
       }
@@ -796,18 +802,18 @@ function ListpropertyForRent() {
 }
 
 function ListpropertyForsale() {
-    const {currentUser, property} = useContext(DataContext);
+    const {property, currentUser} = useContext(DataContext)
 
-    const [price, setPrice] = useState(0);
-    const [location,setlocation] = useState("");
-    const [description, setdescription] = useState("");
-    const [message, setMessage] = useState("");
-    const [selectedbathroom, setSelectedbathroom] = useState(0);
-    const [selectedrooms, setSelectedrooms] = useState(0);
-    const [selectedfurnishingStatus, setSelectedfurnishingStatus] = useState(0);
-    const [selectedHouseType, setSelectedHouseType] = useState('');
-    const [coverPhoto, setCoverPhoto] = useState(null);
-    const [otherPhotos, setOtherPhotos] = useState(null);
+    const [price, setPrice] = useState(property.price);
+    const [location,setlocation] = useState(property.location);
+    const [description, setdescription] = useState(property.description);
+    const [message, setMessage] = useState();
+    const [selectedbathroom, setSelectedbathroom] = useState(property.bathrooms);
+    const [selectedrooms, setSelectedrooms] = useState(property.rooms);
+    const [selectedfurnishingStatus, setSelectedfurnishingStatus] = useState(property.furnishingStatus);
+    const [selectedHouseType, setSelectedHouseType] = useState(property.housetype);
+    const [coverPhoto, setCoverPhoto] = useState(property.coverPhoto);
+    const [otherPhotos, setOtherPhotos] = useState(property.otherPhotos);
     // const [contactId, setContactId] = useState(0);
 
     const [finalAmenitiesList, setFinalAmenitiesList] = useState([])
@@ -827,6 +833,7 @@ function ListpropertyForsale() {
         form_data.append('furnishingStatus', selectedfurnishingStatus)
         form_data.append('purpose', 'For-Sale')
         form_data.append('houseType', selectedHouseType)
+        form_data.append('ownerId', currentUser.id)
         form_data.append('amenities', finalAmenitiesList.join(","))
         form_data.append('coverPhoto', coverPhoto)
         form_data.append('otherPhotos', otherPhotos)
@@ -835,25 +842,25 @@ function ListpropertyForsale() {
           throw new Error("You must be logged in to post a Property!");
         }
   
-      try {
-        const res = await axios.post('http://127.0.0.1:8000/forsale/', form_data, {
-            headers: {
-                'content-type': 'multipart/form-data'
+        try {
+            const res = await axios.put(`http://127.0.0.1:8000/forsale/${property.id}/`, form_data, {
+                headers: {
+                    'content-type': 'multipart/form-data'
             }
         })
   
-        if (res.status === 200) {
-          setPrice(0);
-          setlocation("");
-          setdescription("");
-          setSelectedbathroom(0);
-          setSelectedrooms(0);
-          setSelectedfurnishingStatus(""); 
-          setSelectedHouseType("");
-          setMessage("User created successfully");
-        } else {
-          setMessage("Some error occured");
-        }
+        // if (res.status === 200) {
+        //   setPrice(0);
+        //   setlocation("");
+        //   setdescription("");
+        //   setSelectedbathroom(0);
+        //   setSelectedrooms(0);
+        //   setSelectedfurnishingStatus(""); 
+        //   setSelectedHouseType("");
+        //   setMessage("User created successfully");
+        // } else {
+        //   setMessage("Some error occured");
+        // }
       } catch (err) {
         console.log(err);
       }
@@ -927,7 +934,7 @@ function ListpropertyForsale() {
                                 </Select>
                                 <Select 
                                     variant='filled' 
-                                    placeholder='Bedrooms' 
+                                    placeholder='rooms' 
                                     size='md'
                                     value={selectedrooms}
                                     onChange={(e) => setSelectedrooms(e.target.value)}

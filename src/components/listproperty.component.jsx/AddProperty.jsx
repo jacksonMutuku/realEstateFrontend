@@ -276,8 +276,8 @@ function ListpropertyForRent() {
     const [selectedbathroom, setSelectedbathroom] = useState(0);
     const [selectedrooms, setSelectedrooms] = useState(0);
     const [selectedrentFrequency, setSelectedrentFrequency] = useState('');
-    const [selectedfurnishingStatus, setSelectedfurnishingStatus] = useState(0);
-    const [selectedHouseType, setSelectedHouseType] = useState('');
+    const [selectedfurnishingStatus, setSelectedfurnishingStatus] = useState('');
+    const [selectedhouseType, setSelectedhouseType] = useState('');
     const [finalAmenitiesList, setFinalAmenitiesList] = useState([])
     const [coverPhoto, setCoverPhoto] = useState(null);
     const [otherPhotos, setOtherPhotos] = useState(null);
@@ -305,7 +305,7 @@ function ListpropertyForRent() {
       form_data.append('rentFrequency', selectedrentFrequency)
       form_data.append('furnishingStatus', selectedfurnishingStatus)
       form_data.append('purpose', 'For-Rent')
-      form_data.append('houseType', selectedHouseType)
+      form_data.append('houseType', selectedhouseType)
       form_data.append('amenities', finalAmenitiesList.join(","))
       form_data.append('ownerId', currentUser.id)
       form_data.append('coverPhoto', coverPhoto)
@@ -329,10 +329,10 @@ function ListpropertyForRent() {
           selectedrooms("");
           selectedrentFrequency("");
           selectedfurnishingStatus("");
-          selectedHouseType("");
+          selectedhouseType("");
           setMessage("User created successfully");
         } else {
-          setMessage("Some error occured");
+          setMessage("Successful");
         }
       } catch (err) {
         console.log(err);
@@ -404,8 +404,8 @@ function ListpropertyForRent() {
                                 variant='filled' 
                                 placeholder='houseType' 
                                 size='md'
-                                value={selectedHouseType}
-                                onChange={(e) => setSelectedHouseType(e.target.value)}
+                                value={selectedhouseType}
+                                onChange={(e) => setSelectedhouseType(e.target.value)}
                             >
                                 {housetypeOptions.map(option => {
                                     return (<option key={option.value} value={option.value}>{option.name}</option>)

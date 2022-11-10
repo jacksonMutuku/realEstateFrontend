@@ -13,7 +13,7 @@ const PropertyDashboard =()=>{
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-xl-9 col-lg-10">
-                            <div className="section-title text-center"><Heading size='4xl'>Add Your Contacts</Heading></div>
+                            <div className="section-title text-center"><Heading size='4xl'>Choose Service</Heading></div>
                             {/* <Submitcontacts/> */}
                             <VStack p="10">
                                 <Link 

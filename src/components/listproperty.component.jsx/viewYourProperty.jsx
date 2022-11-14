@@ -3,14 +3,15 @@ import Property from "../homepage/PropertySearch";
 import {Flex, Box, Button,Text,Link ,Image, Img, HStack} from '@chakra-ui/react';
 import axios from 'axios';
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 const ViewYourProperty =({ currentUser })=>{
 
     const [userProperties,setUserProperties] =useState([])
     console.log(currentUser);
-
-    const deleteProperty = async (propertyId) => {
-        await axios.delete(`http://127.0.0.1:8000/forrent/${propertyId}/`)
+    const [shouldRender, setShouldRender] = useState(true);
+    const deleteProperty = async (propertyId, purposeUrl) => {
+        await axios.delete(`http://127.0.0.1:8000/${purposeUrl}/${propertyId}/`)
         getProperty()
     }
 
@@ -27,9 +28,14 @@ const ViewYourProperty =({ currentUser })=>{
         setUserProperties(userPropertyList)
     }
     useEffect(()=>{
-        getProperty();
+        setTimeout(() => {
+        //     if (!currentUser) {
+        //         setShouldRender(false);
+        //     }
+            getProperty();
+        }, 3000)
     },[currentUser])
-
+    // if (!shouldRender) return <Redirect to="/signin" />
     return(
         <Box>
             <Flex flexWrap='wrap'>

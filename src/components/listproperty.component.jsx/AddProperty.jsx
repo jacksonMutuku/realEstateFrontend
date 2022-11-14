@@ -1,22 +1,24 @@
 import * as React from 'react';
 import axios from 'axios';
 import { connect } from "react-redux";
+import { useHistory } from 'react-router-dom'
 import { useState } from "react";
 import './listProperty.styles.css';
 import background from '../../assests/living-room1.jpg'
 import { BsCheckCircle } from "react-icons/bs";
-import {Image,Button,Select,Stack,HStack,VStack,Input,InputGroup,Textarea,InputLeftElement,InputRightElement,InputLeftAddon,Checkbox,StackDivider,Heading} from '@chakra-ui/react';
+import {Image,Button,Select,Stack,HStack,VStack,Input,InputGroup,Textarea,InputLeftElement,InputRightElement,InputLeftAddon,Checkbox,StackDivider,Heading,Text} from '@chakra-ui/react';
 import { filterData } from '../../utils/filterData';
 import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
+import { Redirect } from "react-router-dom";
 export const OwnerContext = React.createContext();
 
 
 const AddProperty = ({ currentUser }) => {
     const [selectedPurpose, setSelectedPurpose] = useState("");
+    
 
     useEffect(() => {
-        console.log("LEJIONFEWFNEWNF JE:");
     }, [])
 
     return (
@@ -44,6 +46,8 @@ const AddProperty = ({ currentUser }) => {
 
 //forsale section
 function ListpropertyForsale() {
+    let history = useHistory();
+
     const [price, setPrice] = useState(0);
     const [location,setlocation] = useState("");
     const [description, setdescription] = useState("");
@@ -75,7 +79,7 @@ function ListpropertyForsale() {
         form_data.append('rooms', selectedrooms)
         form_data.append('furnishingStatus', selectedfurnishingStatus)
         form_data.append('purpose', 'For-Sale')
-        form_data.append('houseType', selectedHouseType)
+        form_data.append('housetype', selectedHouseType)
         form_data.append('amenities', finalAmenitiesList.join(","))
         form_data.append('ownerId', currentUser.id)
         form_data.append('coverPhoto', coverPhoto)
@@ -92,7 +96,9 @@ function ListpropertyForsale() {
             }
         })
   
-        if (res.status === 200) {
+        if (res.status === 201) {
+
+          history.push('/ViewYourProperty')
           setPrice(0);
           setlocation("");
           setdescription("");
@@ -100,7 +106,8 @@ function ListpropertyForsale() {
           setSelectedrooms(0);
           setSelectedfurnishingStatus(""); 
           setSelectedHouseType("");
-          setMessage("User created successfully");
+          setMessage("Property created successfully");
+
         } else {
           setMessage("Some error occured");
         }
@@ -129,10 +136,10 @@ function ListpropertyForsale() {
         <form onSubmit={handleSubmit}>
             <div className="row pd-top-100 mb-4">
                 <div className="col-md-4">
-                    <div className="section-title"><h4><Image src="/assests/square-check.svg" alt="img"/>House Name</h4></div>
+                    <div className="section-title"><h4><Image src="/assests/square-check.svg" alt="img"/></h4></div>
                 </div>
                 <div className="col-md-8">
-                    <div className="section-title"><Heading size='sm'>Jason Landville Apartments</Heading><p>Lorem ipsum dolor sit amet, consectetur adipiscing </p></div>
+                    {/* <div className="section-title"><Heading size='sm'>Jason Landville Apartments</Heading><p>Lorem ipsum dolor sit amet, consectetur adipiscing </p></div> */}
                             <Stack spacing={4}>
                                 <InputGroup>
                                     <InputLeftElement
@@ -217,14 +224,20 @@ function ListpropertyForsale() {
                                 onChange={(e) => setdescription(e.target.value)}
                             />
                             <Stack direction='column'justifyContent='space-between' mt='5' mb='5'>
-                            <input 
-                                type='file'
-                                onChange={(e) => setCoverPhoto(e.target.files[0])}
-                                ></input>
-                            <input 
-                                type='file' 
-                                onChange={(e) => setOtherPhotos(e.target.files[0])}
-                                ></input>
+                                <Stack direction='row'>
+                                    <Text fontSize='2xl' as='b'>Choose CoverPhoto</Text>
+                                    <input 
+                                        type='file'
+                                        onChange={(e) => setCoverPhoto(e.target.files[0])}
+                                    ></input>
+                                </Stack>
+                                <Stack direction='row'>
+                                    <Text fontSize='2xl' as='b'>Choose other Image</Text>
+                                    <input 
+                                        type='file' 
+                                        onChange={(e) => setOtherPhotos(e.target.files[0])}
+                                    ></input>
+                                </Stack>
                             </Stack>
                 </div>
             
@@ -234,7 +247,7 @@ function ListpropertyForsale() {
                     <div className="section-title"><h4><Image src="/assests/square-check.svg" alt="img"/>Amenities</h4></div>
                 </div>
                 <div className="col-md-8">
-                    <div className="section-title"><Heading size='sm'>Add The Available Amenities Here</Heading><p>Lorem ipsum dolor sit amet, consectetur adipiscing </p></div>
+                    <div className="section-title"><Heading size='sm'>Add The Available Amenities Here</Heading></div>
                     <div className="row">
                         {/*  TODO - fix final amenity list when unchecked */}
                         {
@@ -268,6 +281,7 @@ function ListpropertyForsale() {
 
 //for rent section
 function ListpropertyForRent() {
+    let history = useHistory();
 
     const [rentamount, setrentamount] = useState("");
     const [location,setlocation] = useState("");
@@ -305,7 +319,7 @@ function ListpropertyForRent() {
       form_data.append('rentFrequency', selectedrentFrequency)
       form_data.append('furnishingStatus', selectedfurnishingStatus)
       form_data.append('purpose', 'For-Rent')
-      form_data.append('houseType', selectedhouseType)
+      form_data.append('housetype', selectedhouseType)
       form_data.append('amenities', finalAmenitiesList.join(","))
       form_data.append('ownerId', currentUser.id)
       form_data.append('coverPhoto', coverPhoto)
@@ -321,18 +335,21 @@ function ListpropertyForRent() {
             }
         })
   
-        if (res.status === 200) {
+        if (res.status === 201) {
+
+          history.push('/ViewYourProperty')
+
           setrentamount("");
           setlocation("");
           setdescription("");
-          selectedbathroom("");
-          selectedrooms("");
-          selectedrentFrequency("");
-          selectedfurnishingStatus("");
-          selectedhouseType("");
+          setSelectedbathroom("");
+          setSelectedbathroom("");
+          setSelectedrentFrequency("");
+          setSelectedfurnishingStatus("");
+          setSelectedhouseType("");
           setMessage("User created successfully");
         } else {
-          setMessage("Successful");
+          setMessage("An error occured");
         }
       } catch (err) {
         console.log(err);
@@ -362,10 +379,10 @@ function ListpropertyForRent() {
     return (
         <div className="row pd-top-100 border-bottom mb-4">
             <div className="col-md-4">
-                <div className="section-title"><h4><Image src="/assests/square-check.svg" alt="img"/>House Name</h4></div>
+                <div className="section-title"><h4><Image src="/assests/square-check.svg" alt="img"/></h4></div>
             </div>
             <div className="col-md-8">
-                <div className="section-title"><Heading size='sm'>Jason Landville Apartments</Heading><p>Lorem ipsum dolor sit amet, consectetur adipiscing </p></div>
+                {/* <div className="section-title"><Heading size='sm'>Jason Landville Apartments</Heading><p>Lorem ipsum dolor sit amet, consectetur adipiscing </p></div> */}
                 <VStack justify-content="space-between">
                     <form onSubmit={handleSubmit}>
 
@@ -402,7 +419,7 @@ function ListpropertyForRent() {
                         <Stack direction="row" mt='5' mb='5'>
                             <Select 
                                 variant='filled' 
-                                placeholder='houseType' 
+                                placeholder='housetype' 
                                 size='md'
                                 value={selectedhouseType}
                                 onChange={(e) => setSelectedhouseType(e.target.value)}
@@ -466,14 +483,20 @@ function ListpropertyForRent() {
                                 onChange={(e) => setdescription(e.target.value)}
                             />
                             <Stack direction='column'justifyContent='space-between' mt='5' mb='5'>
-                                <input 
-                                    type='file'
-                                    onChange={(e) => setCoverPhoto(e.target.files[0])}
+                                <Stack direction='row'>
+                                    <Text fontSize='2xl' as='b'>Choose CoverPhoto</Text>
+                                    <input 
+                                        type='file'
+                                        onChange={(e) => setCoverPhoto(e.target.files[0])}
                                     ></input>
-                                <input 
-                                    type='file' 
-                                    onChange={(e) => setOtherPhotos(e.target.files[0])}
+                                </Stack>
+                                <Stack direction='row'>
+                                    <Text fontSize='2xl' as='b'>Choose other Image</Text>
+                                    <input 
+                                        type='file' 
+                                        onChange={(e) => setOtherPhotos(e.target.files[0])}
                                     ></input>
+                                </Stack>
                             </Stack>
                             <div className="row">
                                 {/*  TODO - fix final amenity list when unchecked */}
@@ -505,106 +528,15 @@ function ListpropertyForRent() {
         </div>   
     );
 }
+
+
+
 export {ListpropertyForsale,ListpropertyForRent};
 
 const mapStateToProps = ({ user }) => ({
-    currentUser: user.currentUser
+    currentUser:user.currentUser
 })
 export default connect(mapStateToProps)(AddProperty);
 
 
-// function Submitcontacts() {
-//     const [firstname, setfirstName] = useState("");
-//     const [lastname,setlastName] = useState("");
-//     const [email, setEmail] = useState("");
-//     const [phoneNumber, setPhoneNumber] = useState(0);
-  
-//     const [owner, setOwner] = useState({});
-  
-//     const [message, setMessage] = useState("");
-  
-//     let handleSubmit = async (e) => {
-//       e.preventDefault();
-  
-//       const owner = { firstname, lastname, email, phoneNumber}
-//       console.log('Owner is ', owner)
-      
-//       try {
-//       //   const res = await axios.post('http://127.0.0.1:8000/Create/', ({
-//       //     firstname: firstname,
-//       //     lastname,
-//       //     email,
-//       //     phoneNumber
-//       //   }))
-  
-//       const res = await axios.post('http://127.0.0.1:8000/Create/', owner)
-//       setOwner(res.data);
-  
-//       //   if (res.status === 201) {
-//       //     setfirstName("");
-//       //     setlastName("");
-//       //     setEmail("");
-//       //     setPhoneNumber(0);
-//       //     setMessage("You have successfully");
-//       //   } else {
-//       //     setMessage("Some error occured");
-//       //   }
-//       } catch (err) {
-//         console.log(err);
-//       }
-//     };
-  
-//     return (
-//       <>
-//       {/* <div className="row border-bottom mb-4">
-//           <div className="col-md-4">
-//                <div className="section-title"><h4><Image src="/assests/square-check.svg" alt="img"/>Contacts</h4></div>
-//           </div>
-//           <div className="col-md-8">
-//               <div className="section-title"><Heading size='sm'>Enter Your Contacts</Heading></div>
-//               <VStack justify-content="space-between">
-//                   <Stack direction="row">
-//                       <Stack spacing={3}>
-//                           <form onSubmit={handleSubmit}>
-//                               <Input 
-//                                   variant='filled' 
-//                                   placeholder='First Name'
-//                                   value={firstname}
-//                                   onChange={(e) => setfirstName(e.target.value)}
-//                               />
-//                               <Input 
-//                                   variant='filled' 
-//                                   placeholder='Last Name'
-//                                   value={lastname}
-//                                   onChange={(e) => setlastName(e.target.value)}
-//                               />
-//                               <Input 
-//                                   variant='filled' 
-//                                   placeholder='Email'
-//                                   value={email}
-//                                   onChange={(e) => setEmail(e.target.value)}
-//                               />
-//                               <InputGroup>
-//                                   <InputLeftAddon children='+254' />
-//                                   <Input 
-//                                       type='tel' 
-//                                       placeholder='phone number'
-//                                       value={phoneNumber}
-//                                       onChange={(e) => setPhoneNumber(e.target.value)}
-//                                   />
-//                               </InputGroup>
-//                               <Button colorScheme='yellow' type='submit'>Next</Button>
-//                               <div className="message">{message ? <p>{message}</p> : null}</div>
-//                           </form>
-//                       </Stack>
-//                   </Stack>
-//               </VStack>
-//            </div>
-//       </div> */}
-  
-//           <ChooseCategory/>
-  
-//       </>
-  
-//     );
-//   }
+

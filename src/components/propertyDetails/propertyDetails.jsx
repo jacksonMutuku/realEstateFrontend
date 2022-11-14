@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import {Box, Flex, Spacer,Text,Link,Image,Button} from '@chakra-ui/react';
 import {FaBed,FaBath} from 'react-icons/fa';
 import ImageScrollbar from '../homepage/ImageScrollbar';
@@ -13,16 +12,27 @@ const PropertyDetails= ({property}) => {
     if (!property) {
         return (<div>No property found!</div>)
     }
-    const { price, rentFrequency, roomnumber, bathno, description, housetype, purpose, furnishingStatus,otherPhotos,amenities, ownerId} = property;
-    
-    if (ownerId) {
-        const getOwner = async () => {
-            const res = await axios.get(`http://127.0.0.1:8000/owner/${ownerId}/`);
-            console.log(res)
-            setPhoneNumber(res.data.phoneNumber)
+    const { id ,price, rentFrequency, roomnumber, bathno, description, housetype, purpose, furnishingStatus,otherPhotos,amenities, ownerId,rentamount} = property;
+
+    const getPurposeUrl = (purpose) => {
+        if (purpose === 'For-Rent') {
+            return 'forrent';
         }
-        getOwner()
+        if (purpose === 'For-Sale') {
+            return 'forsale'
+        }
     }
+
+
+    // if (ownerId) {
+    //     const getOwner = async () => {
+    //         const res = await axios.get(`http://127.0.0.1:8000/owner/${ownerId}/`);
+    //         console.log(res)
+    //         setPhoneNumber(res.data.phoneNumber)
+    //     }
+    //     // getOwner()
+    // }
+
     return (<Box maxWidth='1000px' margin='auto' p='4'>
         {otherPhotos && <ImageScrollbar propertiesforsale={property} />}
             <Box width='910px'>
@@ -30,7 +40,8 @@ const PropertyDetails= ({property}) => {
             <Box w='full' p='6'>
                     <Flex paddingTop='2' alignItems='center'>
                         <Text fontWeight='bold' fontSize='lg'>
-                            KSH{price} {rentFrequency && `/${rentFrequency}`}
+                            KSH{price || property.rentamount}{rentFrequency && `/${rentFrequency}`}
+                            {/* KSH{rentamount}{rentFrequency && `/${rentFrequency}`} */}
                         </Text>
                     </Flex>
                     <Flex alignItems='center' p='1' justifyContent='space-between' w='250px' color='blue.400'>
@@ -82,7 +93,7 @@ const PropertyDetails= ({property}) => {
                     </Flex>
                     <Flex className="d-flex justify-content-end">
                         <Link
-                            href="/bookProperty">
+                            href={`/bookProperty/${getPurposeUrl(purpose)}/${id}`}>
                             <Button colorScheme='yellow'>Book Property</Button>
                         </Link>
                     </Flex>

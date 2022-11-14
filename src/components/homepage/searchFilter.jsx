@@ -51,7 +51,7 @@ function SearchFilters({ propertiesforsale, getUpdatedProperties }) {
     };
 
     let updatedPropertyList = propertiesforsale.map(property => {
-      return JSON.stringify(property)
+      return property
     });
     console.log(updatedPropertyList)
 

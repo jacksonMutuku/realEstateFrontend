@@ -50,7 +50,7 @@ const Property= ({viewProperty, property, deleteProperty}) =>
                 </Box>
                 {viewProperty && 
                     <HStack justifyContent='space-between'>
-                        <Button colorScheme='yellow' onClick={() => deleteProperty(id)}>Delete Property</Button>
+                        <Button colorScheme='yellow' onClick={() => deleteProperty(id, purposeUrl)}>Delete Property</Button>
                         <Link 
                             href={`/editProperty/${purposeUrl}/${id}`}
                         >

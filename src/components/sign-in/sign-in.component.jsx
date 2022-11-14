@@ -5,13 +5,14 @@ import React from 'react';
 import './sign-up.styles.css';
 
 class SignIn extends React.Component{
+   
     constructor(props){
         super(props);
 
         this.state={
             email:'',
-            password:''
-           
+            password:'',
+            errorMessage: ""
         }
     }
     handleSubmit = async event =>{
@@ -22,6 +23,7 @@ class SignIn extends React.Component{
         try{
             await auth.signInWithEmailAndPassword(email,password);
             this.setState({email:'',password:''});
+
         }catch(error){
             console.log(error)
         }
@@ -32,6 +34,7 @@ class SignIn extends React.Component{
         this.setState({[name]:value})
     }
     render(){
+        console.log(this.props)
 
         const{email,password} = this.state;
 
@@ -51,30 +54,30 @@ class SignIn extends React.Component{
                                 {/* <Button colorScheme='purple' variant='link' to='/signup'>I do not have an account</Button> */}
                         </HStack>
                         <form onSubmit={this.handleSubmit}>
-                            <VStack>
-                                        <Input
-                                            type="email"
-                                            name="email"
-                                            value={email}
-                                            placeholder="enter email"
-                                            onChange={this.handleChange}
-                                            rounded ='none' 
-                                            variant ='filled'
-                                            required
-                                        />
-                                            <Input
-                                            type="password"
-                                            name="password"
-                                            value={password}
-                                            placeholder="Your Password"
-                                            onChange={this.handleChange}
-                                            rounded ='none' 
-                                            variant ='filled'
-                                            required
-                                            />
-                                        <Button  type='submit' rounded ='none'  color='white' colorScheme='green' width={['full']}>CONTINUE</Button>
-                                        <span>OR</span>
-                                        <Button rounded ='none'  width={['full']} justify='space-between' onClick={signInWithGoogle}><FcGoogle/>SIGN IN WITH GOOGLE</Button>
+                                <VStack>
+                                    <Input
+                                        type="email"
+                                        name="email"
+                                        value={email}
+                                        placeholder="enter email"
+                                        onChange={this.handleChange}
+                                        rounded ='none' 
+                                        variant ='filled'
+                                        required
+                                    />
+                                    <Input
+                                    type="password"
+                                    name="password"
+                                    value={password}
+                                    placeholder="Your Password"
+                                    onChange={this.handleChange}
+                                    rounded ='none' 
+                                    variant ='filled'
+                                    required
+                                />
+                            <Button  type='submit' rounded ='none'  color='white' colorScheme='green' width={['full']}>CONTINUE</Button>
+                            <span>OR</span>
+                            <Button rounded ='none'  width={['full']} justify='space-between' onClick={signInWithGoogle}><FcGoogle/>SIGN IN WITH GOOGLE</Button>
                             </VStack>
                         </form>
                 </Box>

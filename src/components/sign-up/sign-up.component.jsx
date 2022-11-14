@@ -1,6 +1,6 @@
 
  import React from 'react';
- import {Box,HStack,Heading,Center,Button ,InputGroup,VStack,Input,InputLeftAddon} from '@chakra-ui/react';
+ import {Box,HStack,Heading,Center,Button ,InputGroup,VStack,Input,InputLeftAddon, FormErrorMessage} from '@chakra-ui/react';
  import {createUserProfileDocument,auth} from '../../firebase/firebase.utils';
  
  class SignUp extends React.Component{
@@ -14,6 +14,7 @@
              phoneNumber: null,
              password:'',
              confirmPassword: '',
+             errorMessage: ''
          }
      }
      handleSubmit = async event => {
@@ -22,7 +23,8 @@
          const {firstName,lastName,phoneNumber,email, password,confirmPassword } = this.state;
      
          if (password !== confirmPassword) {
-           alert("passwords don't match");
+        //    alert("passwords don't match");
+            this.setState({ errorMessage: "Password dont't match" }) 
            return;
          }
      
@@ -39,8 +41,8 @@
              email:'',
              phoneNumber: 0,
              password: '',
-             confirmPassword: ''
-             
+             confirmPassword: '',
+             errorMessage: ''
            });
          } catch (error) {
            console.error(error);
@@ -53,6 +55,8 @@
       };
      render(){
          const {lastName,firstName,phoneNumber,email,password,confirmPassword} = this.state;
+
+         console.log(this.state.errorMessage)
  
          return(
              <Center  h='100vh'bg='gray.200'>
@@ -134,8 +138,8 @@
                                                 rounded ='none' 
                                                 variant ='filled'
                                                 required
-                                                
                                             />
+                                            <div className='text-danger'>{this.state.errorMessage}</div> 
                                              <Button type='submit' rounded ='none'  width={['full']}  colorScheme='green'>Agree And Sign-Up</Button>
  
                                      </VStack>
